@@ -136,7 +136,7 @@ class User extends Authenticatable
 
     public function esEmpresa(): bool
     {
-        return Empresa::where('user_id', $this->id)->exists();
+        return $this->getEmailDomain() === env('EMAIL_EMPRESA_DOMAIN');
     }
 
     private function getEmailDomain(): string

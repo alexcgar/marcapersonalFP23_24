@@ -91,6 +91,8 @@ Route::prefix('users')->group(function () {
     Route::put('/edit/{id}', [UserController::class, 'putEdit'])->name('user.putEdit')->where('id', '[0-9]+');
 
     Route::get('/edit/{id}', [UserController::class, 'getEdit'])->where('id', '[0-9]+')->middleware('auth');
+
+
 });
 
 Route::prefix('actividades')->group(function () {

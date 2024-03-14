@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Curriculo;
 use App\Models\User;
+use App\Models\Permiso_Descarga;
+
 
 class CurriculoController extends Controller
 {
@@ -59,8 +61,15 @@ class CurriculoController extends Controller
             $path = $request->file('pdf_curriculum')->store('curriculos', ['disk' => 'public']);
             $curriculo->pdf_curriculum = $path;
         }
-
+        $user = auth()->user();
         $curriculo->save();
+        
+        if($user->esEmpresa()){
+        $permiso = new Permiso_Descarga();
+        $permiso->user_id = $request->user()->id;
+        $permiso->curriculo_id = $request->curriculo()->id;
+        $permiso->save();
+        }
 
         return redirect(action([self::class, 'getShow'], ['id' => $curriculo->id]));
 
